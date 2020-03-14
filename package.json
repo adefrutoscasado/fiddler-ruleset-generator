@@ -1,0 +1,32 @@
+{
+  "name": "fiddler-ruleset-generator",
+  "version": "0.1.0",
+  "description": "A tool to generate fiddler rulesets using a Chrome network capture",
+  "main": "build/index.js",
+  "author": {
+    "name": "Alejandro de Frutos",
+    "email": "adefrutoscasado@gmail.com",
+    "url": "https://github.com/adefrutoscasado"
+  },
+  "license": "MIT",
+  "scripts": {
+    "develop": "tsc-watch -w --onSuccess \"node ./build/\"",
+    "tsc": "tsc",
+    "compile": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.1",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.7.0",
+    "eslint-config-airbnb-es5": "^1.2.0",
+    "tsc-watch": "^4.2.3",
+    "typescript": "^3.7.4"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "dependencies": {
+    "jsontoxml": "^1.0.1",
+    "mime-to-extensions": "^1.0.2"
+  }
+}
