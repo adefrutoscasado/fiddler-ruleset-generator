@@ -1,31 +1,32 @@
 
 import { promisify } from 'util';
 import * as fs from 'fs';
-import * as mime from 'mime-to-extensions'
 import RuleSet from './RuleSet'
+import ResponseMock from './ResponseMock'
 
 import * as networkCaptureImport from './target/networkcapture.json';
 const networkCapture = networkCaptureImport as NetWorkReport
 const writeFile = promisify(fs.writeFile);
 
 const OUTPUT_FOLDER: string = './generated/'
+const OUTPUT_RULESET_FILENAME: string = 'ruleset'
 const MOCKS_PATH: string = 'C:/mocks/'
-
-const removeSymbols = (string: string) => string.replace(/[^a-zA-Z ]/g, "")
 
 const main = async () => {
   const ruleSet = new RuleSet()
-  await networkCapture.log.entries.forEach(async ({ request, response }) => {
-    if (response.content.mimeType === 'application/json') {
-      const mockFileName = `${removeSymbols(request.url)}.${mime.extension(response.content.mimeType)}`
+  await networkCapture.log.entries.forEach(async ({ response, request }) => {
+    try {
+      const responseMock = new ResponseMock(response, request)
+      await writeFile(`${OUTPUT_FOLDER}mocks/${responseMock.getFilename()}`, responseMock.getFiddlerMock())
       ruleSet.addRule({
         match: request.url,
-        action: `${MOCKS_PATH}${mockFileName}`
+        action: `${MOCKS_PATH}${responseMock.getFilename()}`
       })
-      await writeFile(`${OUTPUT_FOLDER}mocks/${mockFileName}`, JSON.stringify(JSON.parse(response.content.text)))
+    } catch (error) {
+      console.error(`There was an error processing request ${request.url}\n`)
     }
   })
-  await writeFile(`${OUTPUT_FOLDER}ruleset.farx`, ruleSet.getXMLRuleSet())
+  await writeFile(`${OUTPUT_FOLDER}${OUTPUT_RULESET_FILENAME}.farx`, ruleSet.getXMLRuleSet())
   console.log('Process finished')
 }
 
