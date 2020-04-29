@@ -22,10 +22,10 @@ class ResponseMock {
     }
     getDefaultFiddlerMock() {
         return `
-      ${this.response.httpVersion} ${this.response.status} ${this.response.statusText}
-      ${this.response.headers.map((header) => `${header.name}: ${header.value}`).join('\n')}
+${this.response.httpVersion} ${this.response.status} ${this.response.statusText}
+${this.response.headers.map((header) => `${header.name}: ${header.value}`).join('\n')}
 
-      ${this.getParsedResponse()}`;
+${this.getParsedResponse()}`;
     }
     getFilename() {
         return `${removeSymbols(this.request.url)}.${this.getFilenameExtension()}`;

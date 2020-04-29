@@ -1,6 +1,6 @@
-declare type Method = "GET" | "POST" | "PUT" | "PATCH" 
+type Method = "GET" | "POST" | "PUT" | "PATCH" 
 
-declare type _RequestContent = {
+type _RequestContent = {
   size: number
   mimeType: string
   compression: number
@@ -16,7 +16,7 @@ declare type _RequestContent = {
   pageref: string
 }
 
-declare type _ResponseContent = {
+type _ResponseContent = {
   size: number
   mimeType: string
   compression: number
@@ -24,17 +24,17 @@ declare type _ResponseContent = {
   encoding: string
 }
 
-declare type Header = {
+type Header = {
   name: string
   value: string
 }
 
-declare type QueryString = {
+type QueryString = {
   name: string
   value: string
 }
 
-declare type Cookie = {
+type Cookie = {
   name: string
   value: string
   expires: any | null
@@ -42,7 +42,7 @@ declare type Cookie = {
   secure: boolean
 }
 
-declare type _Response = {
+type _Response = {
   status: number
   statusText: string
   httpVersion: string
@@ -51,7 +51,7 @@ declare type _Response = {
   content: _ResponseContent
 }
 
-declare type _Request = {
+type _Request = {
   method: Method
   url: string
   httpVersion: string
@@ -61,7 +61,7 @@ declare type _Request = {
   content: _RequestContent
 }
 
-declare type Petition = {
+type Petition = {
   startedDateTime: string
   time: number
   request: _Request
@@ -76,7 +76,7 @@ declare type Petition = {
   pageref: string
 }
 
-declare type NetWorkReport = {
+type NetWorkReport = {
   log: {
     version: string
     creator: any

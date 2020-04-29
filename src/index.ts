@@ -12,7 +12,7 @@ const OUTPUT_FOLDER: string = './generated/'
 const OUTPUT_RULESET_FILENAME: string = 'ruleset'
 const MOCKS_PATH: string = 'C:/mocks/'
 
-const main = async () => {
+const main = async (networkCapture: NetWorkReport) => {
   const ruleSet = new RuleSet()
   await networkCapture.log.entries.forEach(async ({ response, request }) => {
     try {
@@ -30,4 +30,4 @@ const main = async () => {
   console.log('Process finished')
 }
 
-main()
+main(networkCapture)

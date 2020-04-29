@@ -8,3 +8,4 @@ npm-debug.log*
 /**/package-lock.json
 /generated/*
 /build/target/*
+/src/target/*

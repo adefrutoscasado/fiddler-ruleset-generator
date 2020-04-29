@@ -19,7 +19,7 @@ const writeFile = util_1.promisify(fs.writeFile);
 const OUTPUT_FOLDER = './generated/';
 const OUTPUT_RULESET_FILENAME = 'ruleset';
 const MOCKS_PATH = 'C:/mocks/';
-const main = () => __awaiter(void 0, void 0, void 0, function* () {
+const main = (networkCapture) => __awaiter(void 0, void 0, void 0, function* () {
     const ruleSet = new RuleSet_1.default();
     yield networkCapture.log.entries.forEach(({ response, request }) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -37,5 +37,5 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     yield writeFile(`${OUTPUT_FOLDER}${OUTPUT_RULESET_FILENAME}.farx`, ruleSet.getXMLRuleSet());
     console.log('Process finished');
 });
-main();
+main(networkCapture);
 //# sourceMappingURL=index.js.map
