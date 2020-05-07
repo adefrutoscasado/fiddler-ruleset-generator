@@ -9,33 +9,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const util_1 = require("util");
-const fs = require("fs");
+const JSZip = require("jszip");
 const RuleSet_1 = require("./RuleSet");
+exports.RuleSet = RuleSet_1.default;
 const ResponseMock_1 = require("./ResponseMock");
-const networkCaptureImport = require("./target/networkcapture.json");
-const networkCapture = networkCaptureImport;
-const writeFile = util_1.promisify(fs.writeFile);
-const OUTPUT_FOLDER = './generated/';
+exports.ResponseMock = ResponseMock_1.default;
 const OUTPUT_RULESET_FILENAME = 'ruleset';
 const MOCKS_PATH = 'C:/mocks/';
-const main = (networkCapture) => __awaiter(void 0, void 0, void 0, function* () {
+const defaultJsZipGenerationOptions = { type: 'blob' };
+const exportToZip = (networkCapture, mocksPath = MOCKS_PATH, jsZipGenerationOptions = defaultJsZipGenerationOptions) => __awaiter(void 0, void 0, void 0, function* () {
+    let zip = new JSZip();
     const ruleSet = new RuleSet_1.default();
     yield networkCapture.log.entries.forEach(({ response, request }) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const responseMock = new ResponseMock_1.default(response, request);
-            yield writeFile(`${OUTPUT_FOLDER}mocks/${responseMock.getFilename()}`, responseMock.getFiddlerMock());
+            zip.file(`mocks/${responseMock.getFilename()}`, responseMock.getFiddlerMock());
             ruleSet.addRule({
                 match: request.url,
-                action: `${MOCKS_PATH}${responseMock.getFilename()}`
+                action: `${mocksPath}${responseMock.getFilename()}`
             });
         }
         catch (error) {
             console.error(`There was an error processing request ${request.url}\n`);
         }
     }));
-    yield writeFile(`${OUTPUT_FOLDER}${OUTPUT_RULESET_FILENAME}.farx`, ruleSet.getXMLRuleSet());
-    console.log('Process finished');
+    zip.file(`${OUTPUT_RULESET_FILENAME}.farx`, ruleSet.getXMLRuleSet());
+    return yield zip.generateAsync(jsZipGenerationOptions);
 });
-main(networkCapture);
+exports.default = exportToZip;
 //# sourceMappingURL=index.js.map

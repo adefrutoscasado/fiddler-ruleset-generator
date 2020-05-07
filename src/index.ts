@@ -1,33 +1,33 @@
 
-import { promisify } from 'util';
-import * as fs from 'fs';
+import * as JSZip from 'jszip';
+
 import RuleSet from './RuleSet'
 import ResponseMock from './ResponseMock'
+import { Arg1 } from 'tsargs'
 
-import * as networkCaptureImport from './target/networkcapture.json';
-const networkCapture = networkCaptureImport as NetWorkReport
-const writeFile = promisify(fs.writeFile);
-
-const OUTPUT_FOLDER: string = './generated/'
 const OUTPUT_RULESET_FILENAME: string = 'ruleset'
 const MOCKS_PATH: string = 'C:/mocks/'
 
-const main = async (networkCapture: NetWorkReport) => {
+const defaultJsZipGenerationOptions: Arg1<typeof JSZip['generateAsync']> = {type: 'blob'}
+
+const exportToZip = async (networkCapture: NetWorkReport, mocksPath = MOCKS_PATH, jsZipGenerationOptions = defaultJsZipGenerationOptions) => {
+  let zip = new JSZip();
   const ruleSet = new RuleSet()
   await networkCapture.log.entries.forEach(async ({ response, request }) => {
     try {
       const responseMock = new ResponseMock(response, request)
-      await writeFile(`${OUTPUT_FOLDER}mocks/${responseMock.getFilename()}`, responseMock.getFiddlerMock())
+      zip.file(`mocks/${responseMock.getFilename()}`, responseMock.getFiddlerMock())
       ruleSet.addRule({
         match: request.url,
-        action: `${MOCKS_PATH}${responseMock.getFilename()}`
+        action: `${mocksPath}${responseMock.getFilename()}`
       })
     } catch (error) {
       console.error(`There was an error processing request ${request.url}\n`)
     }
-  })
-  await writeFile(`${OUTPUT_FOLDER}${OUTPUT_RULESET_FILENAME}.farx`, ruleSet.getXMLRuleSet())
-  console.log('Process finished')
+  }) 
+  zip.file(`${OUTPUT_RULESET_FILENAME}.farx`, ruleSet.getXMLRuleSet())
+  return await zip.generateAsync(jsZipGenerationOptions)
 }
 
-main(networkCapture)
+export {RuleSet, ResponseMock}
+export default exportToZip

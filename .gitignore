@@ -6,6 +6,3 @@ npm-debug.log*
 .vscode
 /**/yarn.lock
 /**/package-lock.json
-/generated/*
-/build/target/*
-/src/target/*
