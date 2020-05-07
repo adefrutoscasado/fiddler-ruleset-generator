@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-
+    "declaration": true,
+    "declarationDir": "./build",
+    "lib": ["esnext", "dom"],
     "outDir": "build",
     "target": "es6",
     "allowJs": false,
     "module": "commonjs",
-    "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -14,11 +15,12 @@
     "noImplicitUseStrict": false,
     "noImplicitAny": true,
     "strict": true,
-    "sourceMap": true,
-    "resolveJsonModule": true,
+    "sourceMap": true
   },
+  "files": [
+    "./src/global.d.ts"
+  ],
   "include": [
-      "./src/**/*",
-      "typings.d.ts"
+      "./src/**/*"
   ]
 }

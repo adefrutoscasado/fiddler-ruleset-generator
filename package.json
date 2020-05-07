@@ -16,6 +16,7 @@
     "compile": "tsc"
   },
   "dependencies": {
+    "@types/jsontoxml": "^1.0.1",
     "jsontoxml": "^1.0.1",
     "jszip": "^3.4.0"
   },

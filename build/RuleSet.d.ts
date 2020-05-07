@@ -30,6 +30,6 @@ declare class RuleSet {
             }[];
         }[];
     }[];
-    getXMLRuleSet: () => any;
+    getXMLRuleSet: () => string;
 }
 export default RuleSet;
