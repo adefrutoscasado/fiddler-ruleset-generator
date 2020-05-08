@@ -10,7 +10,7 @@ const MOCKS_PATH: string = 'C:/mocks/'
 
 const defaultJsZipGenerationOptions: Arg1<typeof JSZip['generateAsync']> = {type: 'blob'}
 
-const exportToZip = async (networkCapture: NetWorkReport, mocksPath = MOCKS_PATH, jsZipGenerationOptions = defaultJsZipGenerationOptions) => {
+const exportToZip = async (networkCapture: NetWorkReport, mocksPath = MOCKS_PATH, jsZipGenerationOptions = defaultJsZipGenerationOptions, onErrorProcessingRequest = console.error) => {
   let zip = new JSZip();
   const ruleSet = new RuleSet()
   await networkCapture.log.entries.forEach(async ({ response, request }) => {
@@ -22,7 +22,7 @@ const exportToZip = async (networkCapture: NetWorkReport, mocksPath = MOCKS_PATH
         action: `${mocksPath}${responseMock.getFilename()}`
       })
     } catch (error) {
-      console.error(`There was an error processing request ${request.url}\n`)
+      onErrorProcessingRequest(`There was an error processing request ${request.url}\n${error}\n`)
     }
   }) 
   zip.file(`${OUTPUT_RULESET_FILENAME}.farx`, ruleSet.getXMLRuleSet())

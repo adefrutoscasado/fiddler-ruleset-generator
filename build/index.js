@@ -17,7 +17,7 @@ exports.ResponseMock = ResponseMock_1.default;
 const OUTPUT_RULESET_FILENAME = 'ruleset';
 const MOCKS_PATH = 'C:/mocks/';
 const defaultJsZipGenerationOptions = { type: 'blob' };
-const exportToZip = (networkCapture, mocksPath = MOCKS_PATH, jsZipGenerationOptions = defaultJsZipGenerationOptions) => __awaiter(void 0, void 0, void 0, function* () {
+const exportToZip = (networkCapture, mocksPath = MOCKS_PATH, jsZipGenerationOptions = defaultJsZipGenerationOptions, onErrorProcessingRequest = console.error) => __awaiter(void 0, void 0, void 0, function* () {
     let zip = new JSZip();
     const ruleSet = new RuleSet_1.default();
     yield networkCapture.log.entries.forEach(({ response, request }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,7 +30,7 @@ const exportToZip = (networkCapture, mocksPath = MOCKS_PATH, jsZipGenerationOpti
             });
         }
         catch (error) {
-            console.error(`There was an error processing request ${request.url}\n`);
+            onErrorProcessingRequest(`There was an error processing request ${request.url}\n${error}\n`);
         }
     }));
     zip.file(`${OUTPUT_RULESET_FILENAME}.farx`, ruleSet.getXMLRuleSet());

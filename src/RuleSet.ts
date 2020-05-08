@@ -1,12 +1,12 @@
 import * as jsontoxml from 'jsontoxml'
 
-export const compose = <R>(fn1: (a: R) => R, ...fns: Array<(a: R) => R>) =>
-  fns.reduce((prevFn, nextFn) => value => prevFn(nextFn(value)), fn1)
-
-const regexEscape = (string: string) => string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
-const allowUnsecureConnection = (url: string) => url.replace('https', 'https?')
-const stripQueryStringAndHashFromPath = (url: string) => url.split("?")[0].split("#")[0]
-const addRegexFlag = (regExpression: string) => `regex:^${regExpression}`
+import {
+  compose,
+  addRegexFlag,
+  allowUnsecureConnection,
+  regexEscape,
+  stripQueryStringAndHashFromPath
+} from './utils'
 
 // REVIEW: Executed in reverse?
 const generateRegexFromUrl = compose(

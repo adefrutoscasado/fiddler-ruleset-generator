@@ -1,5 +1,8 @@
 
-const removeSymbols = (string: string) => string.replace(/[^a-zA-Z ]/g, "")
+import {
+  removeSymbols,
+  limiteFilenameLength
+} from './utils'
 
 class ResponseMock {
   private response: _Response;
@@ -30,7 +33,9 @@ ${this.response.headers.map((header: Header) => `${header.name}: ${header.value}
 ${this.getParsedResponse()}`
   }
   getFilename(): string {
-    return `${removeSymbols(this.request.url)}.${this.getFilenameExtension()}`
+    const filename = removeSymbols(this.request.url)
+    const sanitizedFilename = limiteFilenameLength(filename, this.getFilenameExtension().length)
+    return `${sanitizedFilename}.${this.getFilenameExtension()}`
   }
   getParsedResponse() {
     if (this.isJSON()) return JSON.stringify(JSON.parse(this.response.content.text), null, 2)

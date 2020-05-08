@@ -1,13 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsontoxml = require("jsontoxml");
-exports.compose = (fn1, ...fns) => fns.reduce((prevFn, nextFn) => value => prevFn(nextFn(value)), fn1);
-const regexEscape = (string) => string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-const allowUnsecureConnection = (url) => url.replace('https', 'https?');
-const stripQueryStringAndHashFromPath = (url) => url.split("?")[0].split("#")[0];
-const addRegexFlag = (regExpression) => `regex:^${regExpression}`;
+const utils_1 = require("./utils");
 // REVIEW: Executed in reverse?
-const generateRegexFromUrl = exports.compose(addRegexFlag, allowUnsecureConnection, regexEscape, stripQueryStringAndHashFromPath);
+const generateRegexFromUrl = utils_1.compose(utils_1.addRegexFlag, utils_1.allowUnsecureConnection, utils_1.regexEscape, utils_1.stripQueryStringAndHashFromPath);
 class RuleSet {
     constructor() {
         this.rules = [];

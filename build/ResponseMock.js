@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const removeSymbols = (string) => string.replace(/[^a-zA-Z ]/g, "");
+const utils_1 = require("./utils");
 class ResponseMock {
     constructor(response, request) {
         this.response = response;
@@ -28,7 +28,9 @@ ${this.response.headers.map((header) => `${header.name}: ${header.value}`).join(
 ${this.getParsedResponse()}`;
     }
     getFilename() {
-        return `${removeSymbols(this.request.url)}.${this.getFilenameExtension()}`;
+        const filename = utils_1.removeSymbols(this.request.url);
+        const sanitizedFilename = utils_1.limiteFilenameLength(filename, this.getFilenameExtension().length);
+        return `${sanitizedFilename}.${this.getFilenameExtension()}`;
     }
     getParsedResponse() {
         if (this.isJSON())

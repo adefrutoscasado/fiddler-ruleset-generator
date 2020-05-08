@@ -13,7 +13,7 @@
     "start": "tsc && node ./build/",
     "develop": "tsc-watch -w --onSuccess \"node ./build/\"",
     "tsc": "tsc",
-    "compile": "tsc"
+    "build": "tsc"
   },
   "dependencies": {
     "@types/jsontoxml": "^1.0.1",
