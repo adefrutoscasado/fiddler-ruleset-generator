@@ -10,12 +10,26 @@ const MOCKS_PATH: string = 'C:/mocks/'
 
 const defaultJsZipGenerationOptions: Arg1<typeof JSZip['generateAsync']> = {type: 'blob'}
 
-const exportToZip = async (networkCapture: NetWorkReport, mocksPath = MOCKS_PATH, jsZipGenerationOptions = defaultJsZipGenerationOptions, onErrorProcessingRequest = console.error) => {
+interface ExportOptions {
+  mocksPath?: string,
+  useJsonOnSuccess?: boolean,
+  onErrorProcessingRequest?: (errorMessage: string) => void,
+}
+
+const exportToZip = async (
+  networkCapture: NetWorkReport, 
+  jsZipGenerationOptions = defaultJsZipGenerationOptions, 
+  {
+    mocksPath = MOCKS_PATH,
+    useJsonOnSuccess = true,
+    onErrorProcessingRequest = console.error,
+  }: ExportOptions,
+) => {
   let zip = new JSZip();
   const ruleSet = new RuleSet()
   await networkCapture.log.entries.forEach(async ({ response, request }) => {
     try {
-      const responseMock = new ResponseMock(response, request)
+      const responseMock = new ResponseMock(response, request, {useJsonOnSuccess})
       zip.file(`mocks/${responseMock.getFilename()}`, responseMock.getFiddlerMock())
       ruleSet.addRule({
         match: request.url,

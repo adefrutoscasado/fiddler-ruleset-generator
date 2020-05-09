@@ -17,12 +17,12 @@ exports.ResponseMock = ResponseMock_1.default;
 const OUTPUT_RULESET_FILENAME = 'ruleset';
 const MOCKS_PATH = 'C:/mocks/';
 const defaultJsZipGenerationOptions = { type: 'blob' };
-const exportToZip = (networkCapture, mocksPath = MOCKS_PATH, jsZipGenerationOptions = defaultJsZipGenerationOptions, onErrorProcessingRequest = console.error) => __awaiter(void 0, void 0, void 0, function* () {
+const exportToZip = (networkCapture, jsZipGenerationOptions = defaultJsZipGenerationOptions, { mocksPath = MOCKS_PATH, useJsonOnSuccess = true, onErrorProcessingRequest = console.error, }) => __awaiter(void 0, void 0, void 0, function* () {
     let zip = new JSZip();
     const ruleSet = new RuleSet_1.default();
     yield networkCapture.log.entries.forEach(({ response, request }) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const responseMock = new ResponseMock_1.default(response, request);
+            const responseMock = new ResponseMock_1.default(response, request, { useJsonOnSuccess });
             zip.file(`mocks/${responseMock.getFilename()}`, responseMock.getFiddlerMock());
             ruleSet.addRule({
                 match: request.url,

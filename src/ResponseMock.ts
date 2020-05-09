@@ -7,9 +7,15 @@ import {
 class ResponseMock {
   private response: _Response;
   private request: _Request;
-  constructor(response: _Response, request: _Request) {
+  private useJsonOnSuccessOption: boolean;
+  constructor(
+    response: _Response, 
+    request: _Request,
+    {useJsonOnSuccess = true}
+  ) {
     this.response = response
     this.request = request
+    this.useJsonOnSuccessOption = useJsonOnSuccess
   }
 
   isSuccessful() {
@@ -18,8 +24,12 @@ class ResponseMock {
   isJSON() {
     return this.response.content.mimeType === 'application/json'
   }
+  shouldCreateJsonMock(): boolean {
+    if (!(this.isJSON() && this.isSuccessful())) return false
+    return this.useJsonOnSuccessOption
+  }
   getFiddlerMock(): string {
-    if (this.isSuccessful() && this.isJSON()) return this.getSuccessfulJsonFiddlerMock()
+    if (this.shouldCreateJsonMock()) return this.getSuccessfulJsonFiddlerMock()
     return this.getDefaultFiddlerMock()
   }
   private getSuccessfulJsonFiddlerMock(): string {
@@ -38,11 +48,11 @@ ${this.getParsedResponse()}`
     return `${sanitizedFilename}.${this.getFilenameExtension()}`
   }
   getParsedResponse() {
-    if (this.isJSON()) return JSON.stringify(JSON.parse(this.response.content.text), null, 2)
+    if (this.shouldCreateJsonMock()) return JSON.stringify(JSON.parse(this.response.content.text), null, 2)
     else return this.response.content.text
   }
   private getFilenameExtension(): string {
-    if (this.isSuccessful() && this.isJSON()) return 'json'
+    if (this.shouldCreateJsonMock()) return 'json'
     else return 'dat'
   }
 }

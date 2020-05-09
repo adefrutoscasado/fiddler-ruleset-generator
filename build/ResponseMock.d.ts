@@ -1,9 +1,13 @@
 declare class ResponseMock {
     private response;
     private request;
-    constructor(response: _Response, request: _Request);
+    private useJsonOnSuccessOption;
+    constructor(response: _Response, request: _Request, { useJsonOnSuccess }: {
+        useJsonOnSuccess?: boolean | undefined;
+    });
     isSuccessful(): boolean;
     isJSON(): boolean;
+    shouldCreateJsonMock(): boolean;
     getFiddlerMock(): string;
     private getSuccessfulJsonFiddlerMock;
     private getDefaultFiddlerMock;

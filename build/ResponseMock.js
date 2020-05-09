@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("./utils");
 class ResponseMock {
-    constructor(response, request) {
+    constructor(response, request, { useJsonOnSuccess = true }) {
         this.response = response;
         this.request = request;
+        this.useJsonOnSuccessOption = useJsonOnSuccess;
     }
     isSuccessful() {
         return this.response.status >= 200 && this.response.status < 300;
@@ -12,8 +13,13 @@ class ResponseMock {
     isJSON() {
         return this.response.content.mimeType === 'application/json';
     }
+    shouldCreateJsonMock() {
+        if (!(this.isJSON() && this.isSuccessful()))
+            return false;
+        return this.useJsonOnSuccessOption;
+    }
     getFiddlerMock() {
-        if (this.isSuccessful() && this.isJSON())
+        if (this.shouldCreateJsonMock())
             return this.getSuccessfulJsonFiddlerMock();
         return this.getDefaultFiddlerMock();
     }
@@ -33,13 +39,13 @@ ${this.getParsedResponse()}`;
         return `${sanitizedFilename}.${this.getFilenameExtension()}`;
     }
     getParsedResponse() {
-        if (this.isJSON())
+        if (this.shouldCreateJsonMock())
             return JSON.stringify(JSON.parse(this.response.content.text), null, 2);
         else
             return this.response.content.text;
     }
     getFilenameExtension() {
-        if (this.isSuccessful() && this.isJSON())
+        if (this.shouldCreateJsonMock())
             return 'json';
         else
             return 'dat';
