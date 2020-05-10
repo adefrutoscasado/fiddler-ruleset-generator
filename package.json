@@ -11,6 +11,7 @@
   "license": "MIT",
   "scripts": {
     "start": "tsc && node ./build/",
+    "example": "tsc && node ./build/example",
     "develop": "tsc-watch -w --onSuccess \"node ./build/\"",
     "tsc": "tsc",
     "build": "tsc"

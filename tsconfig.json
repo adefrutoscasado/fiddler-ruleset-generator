@@ -15,7 +15,8 @@
     "noImplicitUseStrict": false,
     "noImplicitAny": true,
     "strict": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "resolveJsonModule": true
   },
   "files": [
     "./src/global.d.ts"

@@ -1,0 +1,141 @@
+{
+    "log": {
+        "version": "1.2",
+        "creator": {
+            "name": "WebInspector",
+            "version": "537.36"
+        },
+        "pages": [
+            {
+                "startedDateTime": "2020-03-11T12:21:37.400Z",
+                "id": "page_1",
+                "title": "https://helloworld.es/api",
+                "pageTimings": {
+                    "onContentLoad": 1946.7949999962002,
+                    "onLoad": 3050.905000010971
+                }
+            }
+        ],
+        "entries": [
+            {
+                "startedDateTime": "2020-03-11T12:22:38.483Z",
+                "time": 275.5149999866262,
+                "request": {
+                    "method": "GET",
+                    "url": "https://helloworld.es/api",
+                    "httpVersion": "HTTP/1.1",
+                    "headers": [
+                        {
+                            "name": "Host",
+                            "value": "helloworld.es"
+                        },
+                        {
+                            "name": "Connection",
+                            "value": "keep-alive"
+                        },
+                        {
+                            "name": "Cache-Control",
+                            "value": "no-cache"
+                        },
+                        {
+                            "name": "accept",
+                            "value": "application/json"
+                        },
+                        {
+                            "name": "User-Agent",
+                            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36"
+                        },
+                        {
+                            "name": "content-type",
+                            "value": "application/json;charset=UTF-8;text/plain, */*"
+                        },
+                        {
+                            "name": "Accept-Language",
+                            "value": "es-ES,es;q=0.9,en;q=0.8"
+                        }
+                    ],
+                    "queryString": [],
+                    "cookies": [],
+                    "headersSize": 0,
+                    "bodySize": 0
+                },
+                "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "httpVersion": "HTTP/1.1",
+                    "headers": [
+                        {
+                            "name": "Date",
+                            "value": "Wed, 11 Mar 2020 12:22:38 GMT"
+                        },
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json;charset=UTF-8"
+                        },
+                        {
+                            "name": "Connection",
+                            "value": "keep-alive"
+                        },
+                        {
+                            "name": "Cache-Control",
+                            "value": "no-cache, no-store"
+                        },
+                        {
+                            "name": "Expires",
+                            "value": "0"
+                        }
+                    ],
+                    "cookies": [],
+                    "content": {
+                        "size": 0,
+                        "mimeType": "application/json",
+                        "compression": -11,
+                        "text": "{\"hello\":\"world\"}"
+                    },
+                    "redirectURL": "",
+                    "headersSize": 0,
+                    "bodySize": 48,
+                    "_transferSize": 426
+                },
+                "cache": {},
+                "timings": {
+                    "blocked": 1.8809999811649323,
+                    "dns": -1,
+                    "ssl": -1,
+                    "connect": -1,
+                    "send": 0.2569999999999999,
+                    "wait": 272.29900000431763,
+                    "receive": 1.0780000011436641,
+                    "_blocked_queueing": 0.9759999811649323
+                },
+                "serverIPAddress": "127.0.0.1",
+                "_initiator": {
+                    "type": "script",
+                    "stack": {
+                        "callFrames": [],
+                        "parent": {
+                            "description": "Promise.then",
+                            "callFrames": [],
+                            "parent": {
+                                "description": "Promise.then",
+                                "callFrames": [],
+                                "parent": {
+                                    "description": "Promise.then",
+                                    "callFrames": [],
+                                    "parentId": {
+                                        "id": "446",
+                                        "debuggerId": "-6417390917542978323.-1093498551201589244"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "_priority": "High",
+                "_resourceType": "fetch",
+                "connection": "167707",
+                "pageref": "page_1"
+            }
+        ]
+    }
+}
